@@ -2,6 +2,7 @@
 # Written by Joshua Jordi
 
 import codecs
+from sys import argv
 
 avg = 0
 count = 0
@@ -11,17 +12,21 @@ passtionary = {}
 #digit = 0
 #symbol = 0
 
+def myprint(d):
+    charPos = 0
+    for k, v in d.items():
+        if isinstance(v, dict):
+            myprint(v)
+        else:
+            print("Character position: %d" % charPos)
+            print("{0} : {1}".format(k, v))
+        charPos += 1
+
 # Reads everything in as UTF-8 (makes other languages easier to work with)
-for password in codecs.open(input('Enter filename: '), encoding='utf-8'):
+for password in codecs.open(argv[1], encoding='utf-8'):
 
     # Strips away newline characters since they are unnecessary
     password = password.strip('\n')
-
-    # If a password is longer than the length of the dictionary, extend the dictionary
-    if len(passtionary) < len(password):
-        difference = len(password) - len(passtionary)
-        for i in range(difference):
-            passtionary[i] = {}
 
     # Helps calculate average length of password
     if len(password) > 0:
@@ -33,8 +38,16 @@ for password in codecs.open(input('Enter filename: '), encoding='utf-8'):
     # Creates a temporary list out of the password
     templist = list(password)
 
+    # If a password is longer than the length of the dictionary, extend the dictionary
+
     for i in range(len(password)):
-        print(passtionary)
+        #print(passtionary)
+
+        if len(passtionary) < len(password):
+            difference = len(password) - len(passtionary)
+            for i in range(difference):
+                passtionary[i] = {}
+
         if password[i] in passtionary[i]:
             passtionary[i][password[i]] += 1
 
@@ -119,8 +132,12 @@ for password in codecs.open(input('Enter filename: '), encoding='utf-8'):
 
 print("Average length of password: %d" % (avg/count))
 
-for i in range(len(passtionary)):
-    print(passtionary[i])
+myprint(passtionary)
+
+#for i in range(len(passtionary)):
+#    print("Character: %d" % i)
+#    print(passtionary[i])
+
 #print(len(passtionary))
 
 ##print("upper %d" % UPPER)
