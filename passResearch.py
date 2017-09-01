@@ -6,27 +6,13 @@ from sys import argv
 
 avg = 0
 count = 0
-passtionary = {}
-#UPPER = 0
-#lower = 0
-#digit = 0
-#symbol = 0
-
-def myprint(d):
-    charPos = 0
-    for k, v in d.items():
-        if isinstance(v, dict):
-            myprint(v)
-        else:
-            print("Character position: %d" % charPos)
-            print("{0} : {1}".format(k, v))
-        charPos += 1
+passList = []
 
 # Reads everything in as UTF-8 (makes other languages easier to work with)
 for password in codecs.open(argv[1], encoding='utf-8'):
 
-    # Strips away newline characters since they are unnecessary
-    password = password.strip('\n')
+    # Strips away newline characters since they are unnecessary and changes the string to a list of characters
+    password = list(password.strip('\n'))
 
     # Helps calculate average length of password
     if len(password) > 0:
@@ -36,103 +22,31 @@ for password in codecs.open(argv[1], encoding='utf-8'):
         characterNumber = 0
 
     # Creates a temporary list out of the password
-    templist = list(password)
+    #templist = list(password)
 
     # If a password is longer than the length of the dictionary, extend the dictionary
 
     for i in range(len(password)):
         #print(passtionary)
 
-        if len(passtionary) < len(password):
-            difference = len(password) - len(passtionary)
+        if len(passList) < len(password):
+            difference = len(password) - len(passList)
             for i in range(difference):
-                passtionary[i] = {}
+                passList.append({})
 
-        if password[i] in passtionary[i]:
-            passtionary[i][password[i]] += 1
+        if password[i] in passList[i]:
+            passList[i][password[i]] += 1
 
         else:
             tempdict = {password[i]: 1}
             #passtionary[i].update(tempdict)
-            passtionary[i].update(tempdict)
-
-
-#    #for i in range(len(password)):
-#    #    passtionary[i] = {}
-
-
-#
-#passwordCharacters = []
-#passwordCharCount = []
-#position = []
-#
-#
-##print(passwordCharacters)
-#passwordNum = 0
-
-#    tempPassList = list(password.strip('\n'))
-#    passwordCharacters.append([0] * len(password.strip('\n')))
-#    passwordCharCount.append([0] * len(password.strip('\n')))
-#
-#    #charCount = 0
-#    for i in range(len(tempPassList)):
-#        #if tempPassList[i] in passwordCharacters:
-#        #print(list(password.strip('\n')))
-#        print(len(tempPassList))
-#        print(i)
-#
-#        if tempPassList[i] in passwordCharacters[passwordNum]:
-#            passwordCharCount[passwordNum][passwordCharacters[i].index(tempPassList[i])] += 1
-#            #passwordCharCount[i]
-#
-#        else:
-#            passwordCharacters[passwordNum][i] = tempPassList[i]
-#            passwordCharCount[passwordNum][i] = 1
-#
-#        print(passwordCharacters)
-#        #charCount += 1
-#
-##    charCount = 0
-##    for character in password:
-##        character = character.strip()
-##        if character in passwordCharacters:
-##            tempList = list(passwordCharacters[character])
-##            print("THIS IS A LIST!!!" + tempList)
-##            passwordCharacters[charCount].append(passwordCharacters[(character, tempList[1] + 1)])
-##        else:
-##            passwordCharacters.append((character, 1))
-##
-##    for character in password:
-##        if character not in passwordCharacters:
-##            passwordCharacters.append([character])
-##        if character.isupper():
-##            UPPER += 1
-##        elif character.islower():
-##            lower += 1
-##            #if character is 'a':
-##            #    passwordCharacters[characterNumber].append(character)
-##        elif character.isdigit():
-##            digit += 1
-##        else:
-##            symbol += 1
-##        characterNumber += 1
-#
-########### Need to find a way to keep passwords in a list as I for loop them
-########### Still need to find a way to check for symbols and find a way to enumerate them based on location in password (ie password[0], password[1], etc.
-#
-##print(passwordCharacters[0])
-##print(passwordCharCount[0])
-#
-##for i in range(len(passwordCharacters)):
-##    print("%s: %d" % (passwordCharacters[i], passwordCharCount[i]))
-#
-#
-#print(passwordCharacters)
+            passList[i] = tempdict
 
 
 print("Average length of password: %d" % (avg/count))
 
-myprint(passtionary)
+print(passList)
+#myprint(passtionary)
 
 #for i in range(len(passtionary)):
 #    print("Character: %d" % i)
