@@ -14,7 +14,7 @@ passList = [{}]
 with codecs.open(argv[1], encoding='utf-8') as f:
     while True:
 
-        content = f.readlines(1000)
+        content = f.read(1024000)
         if not content:
             break
         content = [password.strip('\n') for password in content]
@@ -49,6 +49,7 @@ print("Average length of password: %d\n" % (avg/count))
 for thing in passList:
     print(thing)
 
-# with open('password.csv', 'w') as f:
-#     [f.write('{0},{1}\n'.format(key, value)) for key, value in
-#      passList.items()]
+with open('password.csv', 'w') as f:
+    for i in range(0, len(passList)):
+        [f.write('{0},{1}\n'.format(key, value)) for key, value in
+         passList[i].items()]
